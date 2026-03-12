@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, MessageSquare, MapPin, Phone, ChevronDown, ChevronUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 export default function Contact() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -12,62 +13,93 @@ export default function Contact() {
   ];
 
   return (
-    <div className="bg-white py-16 md:py-24">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      className="bg-white py-16 md:py-24"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-text-dark mb-6">Get in Touch</h1>
-          <p className="text-xl text-text-medium max-w-2xl mx-auto">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl font-bold text-text-dark mb-6"
+          >
+            Get in Touch
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-xl text-text-medium max-w-2xl mx-auto"
+          >
             Have questions about our planners or need help with your order? We're here to help.
-          </p>
+          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Contact Form */}
-          <div className="bg-bg-light p-8 md:p-10 rounded-3xl border border-gray-100">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-bg-light p-8 md:p-10 rounded-3xl border border-gray-100 shadow-sm"
+          >
             <h2 className="text-2xl font-bold text-text-dark mb-8">Send us a message</h2>
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-text-dark mb-2">Name</label>
-                  <input type="text" id="name" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Jane Doe" />
+                  <input type="text" id="name" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow" placeholder="Jane Doe" />
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-text-dark mb-2">Email</label>
-                  <input type="email" id="email" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="jane@example.com" />
+                  <input type="email" id="email" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow" placeholder="jane@example.com" />
                 </div>
               </div>
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-text-dark mb-2">Subject</label>
-                <input type="text" id="subject" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="How can we help?" />
+                <input type="text" id="subject" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow" placeholder="How can we help?" />
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-text-dark mb-2">Message</label>
-                <textarea id="message" rows={5} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none" placeholder="Your message here..."></textarea>
+                <textarea id="message" rows={5} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none transition-shadow" placeholder="Your message here..."></textarea>
               </div>
-              <button type="submit" className="w-full py-4 bg-primary text-white rounded-xl font-medium hover:bg-blue-600 transition-colors">
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                type="submit" 
+                className="w-full py-4 bg-primary text-white rounded-xl font-bold hover:bg-blue-600 transition-colors shadow-lg shadow-primary/30"
+              >
                 Send Message
-              </button>
+              </motion.button>
             </form>
-          </div>
+          </motion.div>
 
           {/* Contact Info & FAQ */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+          >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="w-14 h-14 bg-blue-50 text-primary rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm">
                   <Mail className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-text-dark mb-1">Email Us</h3>
+                  <h3 className="font-bold text-text-dark mb-1">Email Us</h3>
                   <p className="text-text-medium">support@mindflow.com</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="w-14 h-14 bg-purple-50 text-accent rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm">
                   <MessageSquare className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-text-dark mb-1">Live Chat</h3>
+                  <h3 className="font-bold text-text-dark mb-1">Live Chat</h3>
                   <p className="text-text-medium">Available 9am - 5pm EST</p>
                 </div>
               </div>
@@ -76,25 +108,39 @@ export default function Contact() {
             <h2 className="text-2xl font-bold text-text-dark mb-8">Frequently Asked Questions</h2>
             <div className="space-y-4">
               {faqs.map((faq, idx) => (
-                <div key={idx} className="border border-gray-200 rounded-2xl overflow-hidden">
+                <div key={idx} className="border border-gray-200 rounded-2xl overflow-hidden bg-white shadow-sm">
                   <button 
-                    className="w-full px-6 py-4 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors text-left"
+                    className="w-full px-6 py-5 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors text-left"
                     onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                   >
-                    <span className="font-medium text-text-dark">{faq.q}</span>
-                    {openFaq === idx ? <ChevronUp className="h-5 w-5 text-text-medium" /> : <ChevronDown className="h-5 w-5 text-text-medium" />}
+                    <span className="font-bold text-text-dark">{faq.q}</span>
+                    <motion.div
+                      animate={{ rotate: openFaq === idx ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <ChevronDown className="h-5 w-5 text-text-medium" />
+                    </motion.div>
                   </button>
-                  {openFaq === idx && (
-                    <div className="px-6 pb-4 pt-2 bg-white text-text-medium">
-                      {faq.a}
-                    </div>
-                  )}
+                  <AnimatePresence>
+                    {openFaq === idx && (
+                      <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <div className="px-6 pb-5 pt-2 bg-white text-text-medium leading-relaxed">
+                          {faq.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
