@@ -65,7 +65,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 rounded-[2.5rem] transform rotate-3 scale-105 -z-10 blur-xl"></div>
               <div className="relative rounded-[2rem] overflow-hidden shadow-2xl border border-white/50 bg-white p-2">
                 <img 
-                  src="https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=1000&auto=format&fit=crop" 
+                  src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=1000&auto=format&fit=crop" 
                   alt="MindFlow Digital Planner Interface on Tablet" 
                   className="w-full h-auto object-cover rounded-[1.5rem]"
                   referrerPolicy="no-referrer"

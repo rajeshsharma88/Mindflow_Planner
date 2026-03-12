@@ -1,11 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { ShoppingCart, Menu, X, Search } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { blogPosts } from '../pages/Blog';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const searchRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -16,7 +20,24 @@ export default function Header() {
 
   useEffect(() => {
     setIsMenuOpen(false);
+    setIsSearchOpen(false);
+    setSearchQuery('');
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearchOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const filteredPosts = blogPosts.filter(post => 
+    post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <header 
@@ -48,7 +69,7 @@ export default function Header() {
             <Link 
               key={item}
               to={item === 'Home' ? '/' : `/${item.toLowerCase()}`} 
-              className={`text-sm font-medium transition-colors hover:text-primary relative group ${
+              className={`text-base font-semibold transition-colors hover:text-primary relative group ${
                 (location.pathname === '/' && item === 'Home') || location.pathname === `/${item.toLowerCase()}` 
                   ? 'text-primary' 
                   : 'text-text-medium'
@@ -67,8 +88,68 @@ export default function Header() {
         <motion.div 
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-4"
+          className="flex items-center gap-2 sm:gap-4"
         >
+          <div className="relative" ref={searchRef}>
+            <button 
+              className="p-2 text-text-dark hover:text-primary transition-colors rounded-full hover:bg-gray-100"
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+            >
+              <Search className="h-5 w-5" />
+            </button>
+            
+            <AnimatePresence>
+              {isSearchOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  className="absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden"
+                >
+                  <div className="p-3 border-b border-gray-100">
+                    <input
+                      type="text"
+                      placeholder="Search blog posts..."
+                      className="w-full px-4 py-2 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm"
+                      autoFocus
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                  
+                  <div className="max-h-80 overflow-y-auto p-2">
+                    {searchQuery ? (
+                      filteredPosts.length > 0 ? (
+                        filteredPosts.map(post => (
+                          <Link
+                            key={post.id}
+                            to={`/blog/${post.id}`}
+                            className="block p-3 hover:bg-gray-50 rounded-xl transition-colors"
+                            onClick={() => {
+                              setIsSearchOpen(false);
+                              setSearchQuery('');
+                            }}
+                          >
+                            <h4 className="text-sm font-bold text-text-dark line-clamp-1">{post.title}</h4>
+                            <p className="text-xs text-text-medium line-clamp-2 mt-1">{post.excerpt}</p>
+                          </Link>
+                        ))
+                      ) : (
+                        <div className="p-4 text-center text-sm text-text-medium">
+                          No posts found for "{searchQuery}"
+                        </div>
+                      )
+                    ) : (
+                      <div className="p-4 text-center text-sm text-text-medium">
+                        Type to search articles...
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           <Link to="/cart" className="relative p-2 text-text-dark hover:text-primary transition-colors group">
             <ShoppingCart className="h-5 w-5 transform group-hover:scale-110 transition-transform" />
             <motion.span 
@@ -107,7 +188,7 @@ export default function Header() {
                 >
                   <Link 
                     to={item === 'Home' ? '/' : `/${item.toLowerCase()}`} 
-                    className="block px-4 py-3 text-base font-medium text-text-dark hover:bg-blue-50 hover:text-primary rounded-xl transition-colors"
+                    className="block px-4 py-3 text-lg font-semibold text-text-dark hover:bg-blue-50 hover:text-primary rounded-xl transition-colors"
                   >
                     {item}
                   </Link>

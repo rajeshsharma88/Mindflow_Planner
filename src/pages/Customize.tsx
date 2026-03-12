@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Check, ShieldCheck, Download, Lock, Star, Plus, Settings, Palette, Type, Maximize } from 'lucide-react';
+import { Check, ShieldCheck, Download, Lock, Star, StarHalf, Plus, Settings, Palette, Type, Maximize, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function Customize() {
@@ -15,6 +15,38 @@ export default function Customize() {
   const [mealPlannerColor, setMealPlannerColor] = useState('pastel');
   const [mealPlannerFont, setMealPlannerFont] = useState('sans');
   const [mealPlannerSize, setMealPlannerSize] = useState('A4');
+
+  // Dynamic Reviews State
+  const [reviews, setReviews] = useState([
+    { id: 1, rating: 5, text: "Amazing planner!" },
+    { id: 2, rating: 4, text: "Very good, but missing one feature." },
+    { id: 3, rating: 5, text: "Perfect for my needs." },
+    { id: 4, rating: 5, text: "Highly recommend." },
+    { id: 5, rating: 4, text: "Great design." }
+  ]);
+
+  const averageRating = reviews.length > 0 
+    ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length 
+    : 0;
+  const totalReviews = reviews.length + 123; // Simulated total reviews
+
+  const renderStars = (rating: number) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<Star key={`full-${i}`} className="h-5 w-5 fill-current text-yellow-400" />);
+    }
+    if (hasHalfStar) {
+      stars.push(<StarHalf key="half" className="h-5 w-5 fill-current text-yellow-400" />);
+    }
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(<Star key={`empty-${i}`} className="h-5 w-5 text-gray-300" />);
+    }
+    return stars;
+  };
 
   const basePrice = 29.99;
   const addonPrice = 4.99;
@@ -93,10 +125,12 @@ export default function Customize() {
                 MindFlow Custom Digital Planner
               </motion.h1>
               <div className="flex items-center gap-4 mb-6">
-                <div className="flex items-center text-yellow-400">
-                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-current" />)}
+                <div className="flex items-center" title={`${averageRating.toFixed(1)} out of 5 stars`}>
+                  {renderStars(averageRating)}
                 </div>
-                <span className="text-sm text-text-medium underline cursor-pointer hover:text-primary transition-colors">128 Reviews</span>
+                <span className="text-sm text-text-medium underline cursor-pointer hover:text-primary transition-colors">
+                  {totalReviews} Reviews
+                </span>
               </div>
               <motion.p 
                 key={totalPrice}
@@ -276,14 +310,24 @@ export default function Customize() {
 
             {/* Actions */}
             <div className="space-y-4">
-              <motion.button 
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={handleAddToCart}
-                className="w-full py-5 bg-primary text-white rounded-2xl font-bold text-xl hover:bg-blue-600 transition-colors shadow-xl shadow-primary/30 flex items-center justify-center gap-3"
-              >
-                Add to Cart - ${totalPrice.toFixed(2)}
-              </motion.button>
+              <div className="flex gap-4">
+                <motion.button 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleAddToCart}
+                  className="flex-1 py-5 bg-primary text-white rounded-2xl font-bold text-xl hover:bg-blue-600 transition-colors shadow-xl shadow-primary/30 flex items-center justify-center gap-3"
+                >
+                  Add to Cart - ${totalPrice.toFixed(2)}
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-16 h-auto flex items-center justify-center bg-gray-50 border-2 border-gray-200 rounded-2xl text-gray-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all"
+                  title="Add to Wishlist"
+                >
+                  <Heart className="h-6 w-6" />
+                </motion.button>
+              </div>
               <Link 
                 to="/checkout"
                 className="w-full py-5 bg-white text-text-dark border-2 border-gray-200 rounded-2xl font-bold text-xl hover:bg-gray-50 transition-colors flex items-center justify-center gap-3"
