@@ -48,7 +48,19 @@ export default function Customize() {
     return stars;
   };
 
-  const basePrice = 29.99;
+  const getBasePrice = () => {
+    let price = 19.99; // Base for 3 months
+    if (duration === '6') price = 24.99;
+    if (duration === '12') price = 29.99;
+    
+    // Add premium for specific styles
+    if (style === 'aesthetic') price += 4.99;
+    if (style === 'productivity') price += 9.99;
+    
+    return price;
+  };
+
+  const basePrice = getBasePrice();
   const addonPrice = 4.99;
   const totalPrice = basePrice + (addons.length * addonPrice);
 
@@ -159,15 +171,20 @@ export default function Customize() {
                   <span className="text-primary font-semibold capitalize bg-blue-50 px-3 py-1 rounded-full">{style}</span>
                 </h3>
                 <div className="grid grid-cols-3 gap-4">
-                  {['minimal', 'aesthetic', 'productivity'].map((s) => (
+                  {[
+                    { id: 'minimal', label: 'Minimal', price: 0 },
+                    { id: 'aesthetic', label: 'Aesthetic', price: 4.99 },
+                    { id: 'productivity', label: 'Productivity', price: 9.99 }
+                  ].map((s) => (
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      key={s}
-                      onClick={() => setStyle(s)}
-                      className={`py-4 px-4 rounded-2xl border-2 text-sm font-bold transition-all capitalize ${style === s ? 'border-primary bg-blue-50 text-primary shadow-md shadow-blue-100' : 'border-gray-200 text-text-medium hover:border-gray-300 hover:bg-gray-50'}`}
+                      key={s.id}
+                      onClick={() => setStyle(s.id)}
+                      className={`py-4 px-4 rounded-2xl border-2 text-sm font-bold transition-all flex flex-col items-center justify-center gap-1 ${style === s.id ? 'border-primary bg-blue-50 text-primary shadow-md shadow-blue-100' : 'border-gray-200 text-text-medium hover:border-gray-300 hover:bg-gray-50'}`}
                     >
-                      {s}
+                      <span>{s.label}</span>
+                      {s.price > 0 && <span className="text-xs font-normal opacity-80">(+${s.price})</span>}
                     </motion.button>
                   ))}
                 </div>
@@ -180,15 +197,20 @@ export default function Customize() {
                   <span className="text-primary font-semibold bg-blue-50 px-3 py-1 rounded-full">{duration} Months</span>
                 </h3>
                 <div className="grid grid-cols-3 gap-4">
-                  {['3', '6', '12'].map((d) => (
+                  {[
+                    { id: '3', label: '3 Months', price: 19.99 },
+                    { id: '6', label: '6 Months', price: 24.99 },
+                    { id: '12', label: '12 Months', price: 29.99 }
+                  ].map((d) => (
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      key={d}
-                      onClick={() => setDuration(d)}
-                      className={`py-4 px-4 rounded-2xl border-2 text-sm font-bold transition-all ${duration === d ? 'border-primary bg-blue-50 text-primary shadow-md shadow-blue-100' : 'border-gray-200 text-text-medium hover:border-gray-300 hover:bg-gray-50'}`}
+                      key={d.id}
+                      onClick={() => setDuration(d.id)}
+                      className={`py-4 px-4 rounded-2xl border-2 text-sm font-bold transition-all flex flex-col items-center justify-center gap-1 ${duration === d.id ? 'border-primary bg-blue-50 text-primary shadow-md shadow-blue-100' : 'border-gray-200 text-text-medium hover:border-gray-300 hover:bg-gray-50'}`}
                     >
-                      {d} Months
+                      <span>{d.label}</span>
+                      <span className="text-xs font-normal opacity-80">From ${d.price}</span>
                     </motion.button>
                   ))}
                 </div>
