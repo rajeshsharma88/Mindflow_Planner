@@ -44,7 +44,7 @@ export default function Header() {
           animate={{ opacity: 1, y: 0 }}
           className="hidden md:flex items-center gap-8 bg-white/50 backdrop-blur-md px-6 py-2 rounded-full border border-gray-100 shadow-sm"
         >
-          {['Home', 'Shop', 'Customize', 'About', 'Contact'].map((item) => (
+          {['Home', 'Shop', 'Customize', 'Blog', 'About', 'Contact'].map((item) => (
             <Link 
               key={item}
               to={item === 'Home' ? '/' : `/${item.toLowerCase()}`} 
@@ -98,7 +98,7 @@ export default function Header() {
             className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-xl absolute w-full overflow-hidden shadow-xl"
           >
             <nav className="flex flex-col px-4 py-6 space-y-2">
-              {['Home', 'Shop', 'Customize', 'About', 'Contact'].map((item, i) => (
+              {['Home', 'Shop', 'Customize', 'Blog', 'About', 'Contact'].map((item, i) => (
                 <motion.div
                   key={item}
                   initial={{ opacity: 0, x: -20 }}

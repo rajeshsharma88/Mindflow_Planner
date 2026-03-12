@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Check, ShieldCheck, Download, Lock, Star, Plus } from 'lucide-react';
+import { Check, ShieldCheck, Download, Lock, Star, Plus, Settings, Palette, Type, Maximize } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function Customize() {
@@ -10,6 +10,11 @@ export default function Customize() {
   const [theme, setTheme] = useState('light');
   const [addons, setAddons] = useState<string[]>([]);
   const [activeImage, setActiveImage] = useState(0);
+
+  // Meal Planner specific states
+  const [mealPlannerColor, setMealPlannerColor] = useState('pastel');
+  const [mealPlannerFont, setMealPlannerFont] = useState('sans');
+  const [mealPlannerSize, setMealPlannerSize] = useState('A4');
 
   const basePrice = 29.99;
   const addonPrice = 4.99;
@@ -198,22 +203,72 @@ export default function Customize() {
                     { id: 'habits', name: 'Advanced Habit Trackers', desc: 'Monthly, weekly, and daily habit tracking matrices.' },
                     { id: 'goals', name: 'Goal Planning Framework', desc: 'SMART goal templates and quarterly review pages.' },
                     { id: 'finance', name: 'Finance & Budgeting', desc: 'Expense trackers, savings goals, and monthly budgets.' },
+                    { id: 'meal_planner', name: 'Meal Planner Insert', desc: 'Weekly meal planning, grocery lists, and recipe cards.' },
                   ].map((addon) => (
-                    <motion.div 
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      key={addon.id}
-                      onClick={() => toggleAddon(addon.id)}
-                      className={`flex items-start p-5 rounded-2xl border-2 cursor-pointer transition-all ${addons.includes(addon.id) ? 'border-primary bg-blue-50 shadow-md shadow-blue-100' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}
-                    >
-                      <div className={`mt-1 flex-shrink-0 w-6 h-6 rounded-md border-2 flex items-center justify-center mr-4 transition-colors ${addons.includes(addon.id) ? 'bg-primary border-primary text-white' : 'border-gray-300 bg-white'}`}>
-                        {addons.includes(addon.id) && <Check className="h-4 w-4" />}
-                      </div>
-                      <div className="flex-1">
-                        <h4 className={`text-base font-bold ${addons.includes(addon.id) ? 'text-primary' : 'text-text-dark'}`}>{addon.name}</h4>
-                        <p className="text-sm text-text-medium mt-1">{addon.desc}</p>
-                      </div>
-                    </motion.div>
+                    <div key={addon.id} className="flex flex-col relative">
+                      <motion.div 
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        onClick={() => toggleAddon(addon.id)}
+                        className={`relative z-10 flex items-start p-5 rounded-2xl border-2 cursor-pointer transition-all ${addons.includes(addon.id) ? 'border-primary bg-blue-50 shadow-md shadow-blue-100' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}
+                      >
+                        <div className={`mt-1 flex-shrink-0 w-6 h-6 rounded-md border-2 flex items-center justify-center mr-4 transition-colors ${addons.includes(addon.id) ? 'bg-primary border-primary text-white' : 'border-gray-300 bg-white'}`}>
+                          {addons.includes(addon.id) && <Check className="h-4 w-4" />}
+                        </div>
+                        <div className="flex-1">
+                          <h4 className={`text-base font-bold ${addons.includes(addon.id) ? 'text-primary' : 'text-text-dark'}`}>{addon.name}</h4>
+                          <p className="text-sm text-text-medium mt-1">{addon.desc}</p>
+                        </div>
+                      </motion.div>
+                      
+                      {/* Granular Options for Meal Planner */}
+                      <AnimatePresence>
+                        {addon.id === 'meal_planner' && addons.includes('meal_planner') && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0, y: -20 }}
+                            animate={{ opacity: 1, height: 'auto', y: 0 }}
+                            exit={{ opacity: 0, height: 0, y: -20 }}
+                            className="overflow-hidden relative z-0"
+                          >
+                            <div className="p-5 bg-blue-50/50 border-x-2 border-b-2 border-primary/20 rounded-b-2xl -mt-4 pt-8 shadow-inner space-y-5 mx-2">
+                              <h4 className="font-bold text-text-dark flex items-center gap-2 text-sm mb-4">
+                                <Settings className="h-4 w-4 text-primary" /> Meal Planner Customization
+                              </h4>
+                              
+                              {/* Color */}
+                              <div>
+                                <label className="text-xs font-bold text-text-medium uppercase tracking-wider mb-2 flex items-center gap-2"><Palette className="h-3 w-3" /> Accent Color</label>
+                                <div className="flex flex-wrap gap-2">
+                                  {['pastel', 'vibrant', 'monochrome'].map(c => (
+                                     <button key={c} onClick={(e) => { e.stopPropagation(); setMealPlannerColor(c); }} className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize border-2 transition-all ${mealPlannerColor === c ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 bg-white text-text-medium hover:border-gray-300'}`}>{c}</button>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Font */}
+                              <div>
+                                <label className="text-xs font-bold text-text-medium uppercase tracking-wider mb-2 flex items-center gap-2"><Type className="h-3 w-3" /> Typography</label>
+                                <div className="flex flex-wrap gap-2">
+                                  {['sans', 'serif', 'handwriting'].map(f => (
+                                     <button key={f} onClick={(e) => { e.stopPropagation(); setMealPlannerFont(f); }} className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize border-2 transition-all ${mealPlannerFont === f ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 bg-white text-text-medium hover:border-gray-300'}`}>{f}</button>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Size */}
+                              <div>
+                                <label className="text-xs font-bold text-text-medium uppercase tracking-wider mb-2 flex items-center gap-2"><Maximize className="h-3 w-3" /> Page Size</label>
+                                <div className="flex flex-wrap gap-2">
+                                  {['A4', 'A5', 'US Letter'].map(s => (
+                                     <button key={s} onClick={(e) => { e.stopPropagation(); setMealPlannerSize(s); }} className={`px-3 py-1.5 rounded-lg text-xs font-bold border-2 transition-all ${mealPlannerSize === s ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 bg-white text-text-medium hover:border-gray-300'}`}>{s}</button>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
                   ))}
                 </div>
               </div>

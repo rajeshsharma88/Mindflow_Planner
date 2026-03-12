@@ -40,7 +40,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li><Link to="/about" className="text-sm text-text-medium hover:text-primary transition-colors">About Us</Link></li>
               <li><Link to="/contact" className="text-sm text-text-medium hover:text-primary transition-colors">Contact</Link></li>
-              <li><a href="#" className="text-sm text-text-medium hover:text-primary transition-colors">Blog</a></li>
+              <li><Link to="/blog" className="text-sm text-text-medium hover:text-primary transition-colors">Blog</Link></li>
             </ul>
           </div>
 

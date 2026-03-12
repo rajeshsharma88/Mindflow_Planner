@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Settings, Calendar, LayoutTemplate, Star, ArrowRight, CheckCircle2, ShoppingBag } from 'lucide-react';
+import { Settings, Calendar, LayoutTemplate, Star, ArrowRight, CheckCircle2, ShoppingBag, Clock, User } from 'lucide-react';
 import { motion } from 'motion/react';
+import { blogPosts } from './Blog';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -318,6 +319,87 @@ export default function Home() {
                   </div>
                 </div>
               </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Latest Blog Posts Section */}
+      <section className="py-24 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6"
+          >
+            <div>
+              <h2 className="text-3xl md:text-5xl font-bold text-text-dark mb-4">Latest from the Blog</h2>
+              <p className="text-lg text-text-medium max-w-2xl">Tips, guides, and inspiration for your digital planning journey.</p>
+            </div>
+            <Link to="/blog" className="flex items-center gap-2 text-primary font-bold hover:text-blue-700 transition-colors group">
+              View All Posts <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {blogPosts.slice(0, 3).map((post, index) => (
+              <motion.article 
+                key={post.id}
+                variants={fadeInUp}
+                className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col group"
+              >
+                <Link to={`/blog/${post.id}`} className="block relative overflow-hidden aspect-[16/10]">
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10" />
+                  <img 
+                    src={post.image} 
+                    alt={post.title} 
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute top-4 left-4 z-20">
+                    <span className="bg-white/90 backdrop-blur-sm text-primary text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">
+                      {post.category}
+                    </span>
+                  </div>
+                </Link>
+                
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="flex items-center gap-4 text-xs text-text-medium mb-4">
+                    <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {post.date}</span>
+                    <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {post.readTime}</span>
+                  </div>
+                  
+                  <Link to={`/blog/${post.id}`} className="block group-hover:text-primary transition-colors">
+                    <h2 className="text-xl font-bold text-text-dark mb-3 line-clamp-2 leading-tight">
+                      {post.title}
+                    </h2>
+                  </Link>
+                  
+                  <p className="text-text-medium text-sm mb-6 line-clamp-3 flex-1">
+                    {post.excerpt}
+                  </p>
+                  
+                  <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-primary">
+                        <User className="w-4 h-4" />
+                      </div>
+                      <span className="text-sm font-medium text-text-dark">{post.author}</span>
+                    </div>
+                    <Link to={`/blog/${post.id}`} className="text-primary hover:text-blue-700 transition-colors p-2 bg-blue-50 rounded-full group-hover:bg-primary group-hover:text-white">
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.article>
             ))}
           </motion.div>
         </div>
