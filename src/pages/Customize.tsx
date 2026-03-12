@@ -20,6 +20,7 @@ export default function Customize() {
     "https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=800&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1506784365847-bbad939e9335?q=80&w=800&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1490818387583-1b5f22212a36?q=80&w=800&auto=format&fit=crop", // Meal planner dummy image
   ];
 
   const toggleAddon = (id: string) => {
@@ -62,12 +63,12 @@ export default function Customize() {
                   />
                 </AnimatePresence>
               </div>
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-5 gap-3">
                 {images.map((img, idx) => (
                   <button 
                     key={idx}
                     onClick={() => setActiveImage(idx)}
-                    className={`aspect-[4/5] rounded-2xl overflow-hidden border-2 transition-all duration-300 ${activeImage === idx ? 'border-primary ring-4 ring-primary/20 scale-95' : 'border-transparent hover:border-gray-300 hover:scale-105'}`}
+                    className={`aspect-[4/5] rounded-xl overflow-hidden border-2 transition-all duration-300 ${activeImage === idx ? 'border-primary ring-4 ring-primary/20 scale-95' : 'border-transparent hover:border-gray-300 hover:scale-105'}`}
                   >
                     <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </button>
@@ -237,18 +238,18 @@ export default function Customize() {
             </div>
 
             {/* Trust Badges */}
-            <div className="mt-10 grid grid-cols-3 gap-4 border-t border-gray-100 pt-10">
+            <div className="mt-8 grid grid-cols-3 gap-2 border-t border-gray-100 pt-8">
               <div className="flex flex-col items-center text-center">
-                <ShieldCheck className="h-8 w-8 text-emerald-500 mb-3" />
-                <span className="text-sm text-text-medium font-medium">30-Day Money Back</span>
+                <ShieldCheck className="h-6 w-6 text-emerald-500 mb-2" />
+                <span className="text-xs text-text-medium font-medium">30-Day Money Back Guarantee</span>
               </div>
               <div className="flex flex-col items-center text-center">
-                <Download className="h-8 w-8 text-emerald-500 mb-3" />
-                <span className="text-sm text-text-medium font-medium">Instant Download</span>
+                <Download className="h-6 w-6 text-emerald-500 mb-2" />
+                <span className="text-xs text-text-medium font-medium">Instant Download</span>
               </div>
               <div className="flex flex-col items-center text-center">
-                <Lock className="h-8 w-8 text-emerald-500 mb-3" />
-                <span className="text-sm text-text-medium font-medium">Secure Payment</span>
+                <Lock className="h-6 w-6 text-emerald-500 mb-2" />
+                <span className="text-xs text-text-medium font-medium">Secure Payment</span>
               </div>
             </div>
 
