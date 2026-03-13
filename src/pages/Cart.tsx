@@ -1,44 +1,10 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Trash2, Minus, Plus, ArrowRight, ShoppingBag } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useCart } from '../context/CartContext';
 
 export default function Cart() {
-  // Mock cart data
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "MindFlow Custom Digital Planner",
-      options: "Minimal, 12 Months, Light Theme, + Advanced Habit Trackers",
-      price: 34.98,
-      quantity: 1,
-      img: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=400&auto=format&fit=crop"
-    },
-    {
-      id: 2,
-      name: "Digital Sticker Pack - Minimal",
-      options: "Instant Download",
-      price: 9.99,
-      quantity: 1,
-      img: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=400&auto=format&fit=crop"
-    }
-  ]);
-
-  const updateQuantity = (id: number, delta: number) => {
-    setCartItems(items => 
-      items.map(item => {
-        if (item.id === id) {
-          const newQuantity = Math.max(1, item.quantity + delta);
-          return { ...item, quantity: newQuantity };
-        }
-        return item;
-      })
-    );
-  };
-
-  const removeItem = (id: number) => {
-    setCartItems(items => items.filter(item => item.id !== id));
-  };
+  const { cartItems, updateQuantity, removeItem } = useCart();
 
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
@@ -74,11 +40,12 @@ export default function Cart() {
                     {cartItems.map((item) => (
                       <motion.div 
                         key={item.id}
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0, scale: 0.95 }}
-                        transition={{ duration: 0.3 }}
-                        className="p-6 flex flex-col sm:grid sm:grid-cols-12 gap-6 items-center"
+                        layout
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className="p-6 flex flex-col sm:grid sm:grid-cols-12 gap-6 items-center overflow-hidden"
                       >
                         <div className="col-span-6 flex items-center gap-6 w-full">
                           <div className="w-24 h-24 rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0 border border-gray-200">

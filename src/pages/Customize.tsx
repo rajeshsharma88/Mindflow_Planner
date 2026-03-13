@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Check, ShieldCheck, Download, Lock, Star, StarHalf, Plus, Settings, Palette, Type, Maximize, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useCart } from '../context/CartContext';
 
 export default function Customize() {
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [style, setStyle] = useState('minimal');
   const [duration, setDuration] = useState('12');
   const [theme, setTheme] = useState('light');
@@ -65,7 +67,7 @@ export default function Customize() {
   const totalPrice = basePrice + (addons.length * addonPrice);
 
   const images = [
-    "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=800&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=800&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1506784365847-bbad939e9335?q=80&w=800&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=800&auto=format&fit=crop",
@@ -81,6 +83,24 @@ export default function Customize() {
   };
 
   const handleAddToCart = () => {
+    const addonNames = addons.map(a => {
+      if (a === 'habits') return 'Advanced Habit Trackers';
+      if (a === 'goals') return 'Goal Planning Framework';
+      if (a === 'finance') return 'Finance & Budgeting';
+      if (a === 'meal_planner') return 'Meal Planner Insert';
+      return a;
+    });
+
+    const optionsString = `${style.charAt(0).toUpperCase() + style.slice(1)}, ${duration} Months, ${theme.charAt(0).toUpperCase() + theme.slice(1)} Theme${addons.length > 0 ? ', + ' + addonNames.join(', ') : ''}`;
+
+    addToCart({
+      id: Date.now(), // Generate a unique ID for the customized item
+      name: "MindFlow Custom Digital Planner",
+      options: optionsString,
+      price: totalPrice,
+      quantity: 1,
+      img: images[0]
+    });
     navigate('/cart');
   };
 

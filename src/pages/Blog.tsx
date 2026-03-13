@@ -21,7 +21,7 @@ export const blogPosts = [
     author: "Michael Chen",
     date: "Oct 05, 2026",
     readTime: "7 min read",
-    image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=800&auto=format&fit=crop"
   },
   {
     id: 3,

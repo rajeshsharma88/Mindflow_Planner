@@ -3,6 +3,7 @@ import { ShoppingCart, Menu, X, Search } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { blogPosts } from '../pages/Blog';
+import { useCart } from '../context/CartContext';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,6 +12,7 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const searchRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const { cartCount } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -152,13 +154,16 @@ export default function Header() {
 
           <Link to="/cart" className="relative p-2 text-text-dark hover:text-primary transition-colors group">
             <ShoppingCart className="h-5 w-5 transform group-hover:scale-110 transition-transform" />
-            <motion.span 
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white shadow-sm"
-            >
-              2
-            </motion.span>
+            {cartCount > 0 && (
+              <motion.span 
+                key={cartCount}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white shadow-sm"
+              >
+                {cartCount}
+              </motion.span>
+            )}
           </Link>
           <button 
             className="md:hidden p-2 text-text-dark hover:bg-gray-100 rounded-full transition-colors"
