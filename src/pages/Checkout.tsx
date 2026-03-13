@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Lock, ShieldCheck, ArrowLeft, CreditCard, CheckCircle2 } from 'lucide-react';
+import { Lock, ShieldCheck, ArrowLeft, CreditCard, CheckCircle2, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import PaymentMethods from '../components/PaymentMethods';
+import { useCart } from '../context/CartContext';
 
 export default function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { cartItems, removeItem } = useCart();
+
+  const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const handleCheckout = (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,20 +63,21 @@ export default function Checkout() {
       exit={{ opacity: 0 }}
       className="bg-bg-light min-h-screen py-16 md:py-24"
     >
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <Link to="/cart" className="text-sm font-bold text-text-medium hover:text-primary flex items-center gap-2 transition-colors">
             <ArrowLeft className="h-4 w-4" /> Back to Cart
           </Link>
         </div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="bg-white rounded-3xl border border-gray-100 p-8 md:p-12 shadow-sm"
-        >
-          <div className="text-center mb-12 border-b border-gray-100 pb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="lg:col-span-7 bg-white rounded-3xl border border-gray-100 p-8 md:p-12 shadow-sm"
+          >
+            <div className="text-center mb-12 border-b border-gray-100 pb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-text-dark mb-4">Secure Checkout</h1>
             <p className="text-text-medium flex items-center justify-center gap-2 font-medium">
               <Lock className="h-5 w-5 text-emerald-500" /> 256-bit SSL Encryption
@@ -172,6 +177,63 @@ export default function Checkout() {
             </div>
           </form>
         </motion.div>
+
+        {/* Right Column: Order Summary */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="lg:col-span-5"
+        >
+          <div className="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm sticky top-8">
+            <h2 className="text-2xl font-bold text-text-dark mb-6">Order Summary</h2>
+            
+            <div className="space-y-6 mb-8 max-h-[400px] overflow-y-auto pr-2">
+              {cartItems.map((item) => (
+                <div key={item.id} className="flex gap-4">
+                  <div className="relative flex-shrink-0">
+                    <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-100">
+                      <img src={item.img} alt={item.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    </div>
+                    <div className="absolute -top-2 -right-2 bg-gray-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center z-10 shadow-sm">
+                      {item.quantity}
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start gap-2">
+                      <h3 className="text-sm font-bold text-text-dark line-clamp-2 mb-1">{item.name}</h3>
+                      <button 
+                        onClick={() => removeItem(item.id)}
+                        className="text-gray-400 hover:text-red-500 transition-colors p-1 -mt-1 -mr-1"
+                        title="Remove item"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <p className="text-xs text-text-medium line-clamp-2 mb-2">{item.options}</p>
+                    <p className="text-sm font-bold text-text-dark">${(item.price * item.quantity).toFixed(2)}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="border-t border-gray-100 pt-6 space-y-4">
+              <div className="flex justify-between text-text-medium">
+                <span>Subtotal</span>
+                <span className="font-medium text-text-dark">${total.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-text-medium">
+                <span>Taxes</span>
+                <span className="font-medium text-text-dark">Calculated at next step</span>
+              </div>
+              <div className="flex justify-between text-text-dark font-bold text-xl pt-4 border-t border-gray-100">
+                <span>Total</span>
+                <span>${total.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+        </div>
       </div>
     </motion.div>
   );

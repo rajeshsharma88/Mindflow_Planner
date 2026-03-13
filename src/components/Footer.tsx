@@ -47,9 +47,9 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <h3 className="text-sm font-semibold text-text-dark uppercase tracking-wider mb-4">Legal</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-sm text-text-medium hover:text-primary transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-sm text-text-medium hover:text-primary transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="text-sm text-text-medium hover:text-primary transition-colors">Refund Policy</a></li>
+              <li><Link to="/privacy-policy" className="text-sm text-text-medium hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms-of-service" className="text-sm text-text-medium hover:text-primary transition-colors">Terms of Service</Link></li>
+              <li><Link to="/refund-policy" className="text-sm text-text-medium hover:text-primary transition-colors">Refund Policy</Link></li>
             </ul>
           </div>
 

@@ -8,6 +8,9 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import RefundPolicy from './pages/RefundPolicy';
 import { CartProvider } from './context/CartContext';
 
 export default function App() {
@@ -24,6 +27,9 @@ export default function App() {
             <Route path="contact" element={<Contact />} />
             <Route path="cart" element={<Cart />} />
             <Route path="checkout" element={<Checkout />} />
+            <Route path="privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="terms-of-service" element={<TermsOfService />} />
+            <Route path="refund-policy" element={<RefundPolicy />} />
           </Route>
         </Routes>
       </Router>

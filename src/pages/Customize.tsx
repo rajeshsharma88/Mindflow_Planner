@@ -4,6 +4,7 @@ import { Check, ShieldCheck, Download, Lock, Star, StarHalf, Plus, Settings, Pal
 import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../context/CartContext';
 import PaymentMethods from '../components/PaymentMethods';
+import TrustpilotBadge from '../components/TrustpilotBadge';
 
 export default function Customize() {
   const navigate = useNavigate();
@@ -173,7 +174,10 @@ export default function Customize() {
               >
                 ${totalPrice.toFixed(2)}
               </motion.p>
-              <p className="text-lg text-text-medium leading-relaxed">
+              
+              <TrustpilotBadge />
+
+              <p className="text-lg text-text-medium leading-relaxed mt-4">
                 Design your perfect digital planner. Choose your layout style, duration, color theme, and add specific pages to match your unique workflow. Delivered instantly as an interactive PDF optimized for GoodNotes and Notability.
               </p>
               
