@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Check, ShieldCheck, Download, Lock, Star, StarHalf, Plus, Settings, Palette, Type, Maximize, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../context/CartContext';
+import PaymentMethods from '../components/PaymentMethods';
 
 export default function Customize() {
   const navigate = useNavigate();
@@ -71,7 +72,7 @@ export default function Customize() {
     "https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=800&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1506784365847-bbad939e9335?q=80&w=800&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1490818387583-1b5f22212a36?q=80&w=800&auto=format&fit=crop", // Meal planner dummy image
+    "https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=800&auto=format&fit=crop", // Meal planner image
   ];
 
   const toggleAddon = (id: string) => {
@@ -376,6 +377,7 @@ export default function Customize() {
               >
                 Buy It Now
               </Link>
+              <PaymentMethods />
             </div>
 
             {/* Trust Badges */}
@@ -409,7 +411,7 @@ export default function Customize() {
             {[
               { id: 101, name: "Digital Sticker Pack - Minimal", price: 9.99, img: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=400&auto=format&fit=crop" },
               { id: 102, name: "Digital Notebook Bundle", price: 14.99, img: "https://images.unsplash.com/photo-1512314889357-e157c22f938d?q=80&w=400&auto=format&fit=crop" },
-              { id: 103, name: "Meal Planning Insert", price: 5.99, img: "https://images.unsplash.com/photo-1490818387583-1b5f22212a36?q=80&w=400&auto=format&fit=crop" },
+              { id: 103, name: "Meal Planning Insert", price: 5.99, img: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=400&auto=format&fit=crop" },
             ].map((product) => (
               <div key={product.id} className="group flex flex-col bg-white p-4 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
                 <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100 mb-5">

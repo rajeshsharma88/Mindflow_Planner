@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Lock, ShieldCheck, ArrowLeft, CreditCard, CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
+import PaymentMethods from '../components/PaymentMethods';
 
 export default function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -99,7 +100,8 @@ export default function Checkout() {
               <h2 className="text-xl font-bold text-text-dark mb-4">Payment</h2>
               <p className="text-sm text-text-medium mb-6">All transactions are secure and encrypted.</p>
               
-              <div className="border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+              <PaymentMethods />
+              <div className="mt-4 border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
                 <div className="p-5 bg-gray-50 border-b border-gray-200 flex items-center gap-3">
                   <input type="radio" id="credit-card" name="payment" className="w-5 h-5 text-primary focus:ring-primary" defaultChecked />
                   <label htmlFor="credit-card" className="font-bold text-text-dark flex items-center gap-2">

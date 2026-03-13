@@ -9,6 +9,7 @@ const products = [
   { id: 4, name: "Business & Goals Tracker", price: 27.99, category: "Productivity", img: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=600&auto=format&fit=crop" },
   { id: 5, name: "Wellness & Habit Journal", price: 22.99, category: "Wellness", img: "https://images.unsplash.com/photo-1512314889357-e157c22f938d?q=80&w=600&auto=format&fit=crop" },
   { id: 6, name: "Custom Builder Starter", price: 29.99, category: "Custom", img: "https://images.unsplash.com/photo-1543286386-2e659306cd6c?q=80&w=600&auto=format&fit=crop" },
+  { id: 7, name: "Weekly Meal Planner", price: 14.99, category: "Wellness", img: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=600&auto=format&fit=crop" },
 ];
 
 const containerVariants = {

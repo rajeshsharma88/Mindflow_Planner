@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Trash2, Minus, Plus, ArrowRight, ShoppingBag } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../context/CartContext';
+import PaymentMethods from '../components/PaymentMethods';
 
 export default function Cart() {
   const { cartItems, updateQuantity, removeItem } = useCart();
@@ -126,6 +127,8 @@ export default function Cart() {
                   Proceed to Checkout 
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
+                
+                <PaymentMethods />
                 
                 <div className="mt-6 text-center">
                   <Link to="/shop" className="text-sm text-text-medium hover:text-primary underline transition-colors">
